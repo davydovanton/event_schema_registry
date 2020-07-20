@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "order_id": {
+      "type": "integer"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "account_uuid": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "order_id",
+    "account_uuid",
+    "timestamp"
+  ]
+}
