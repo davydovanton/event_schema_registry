@@ -10,6 +10,54 @@ Add this line into your Gemfile:
 gem "schema_registry", git: "https://github.com/davydovanton/event_schema_registry.git"
 ```
 
+## How to add a new event schema
+
+For example, you want to create `billing.refund` event. For make it happen you need:
+
+1. Create a new file `domain/event_name/version.json` in `schemas/` folder. For `billing.refund` it will be `schemas/billing/refund/1.json` (because all new events should be first version;
+2. Create a new json schema file like this:
+
+```
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "title": "Billing.Refund.v1",
+  "description": "json schema for billing refund event (version 1)",
+
+  "definitions": {
+    "event_data": {
+      "type": "object",
+      "properties": {
+        // event specific information here
+      },
+      "required": [
+      ]
+    }
+  },
+
+  "type": "object",
+
+  "properties": {
+    "event_id":      { "type": "string" },
+    "event_version": { "enum": [1] },
+    "event_name":    { "type": "string" },
+    "event_time":    { "type": "string" },
+    "producer":      { "type": "string" },
+
+    "data": { "$ref": "#/definitions/event_data" }
+  },
+
+  "required": [
+    "event_id",
+    "event_version",
+    "event_name",
+    "event_time",
+    "producer",
+    "data"
+  ]
+}
+```
+
 ## How to validate an event data by specific schema
 
 ### Ruby
