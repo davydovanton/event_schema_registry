@@ -41,33 +41,18 @@ result.failure
 ## How to use this library with producer
 ### Option one: with event object
 ```ruby
-class Billing::Events::Refund
-  # ...
-  def to_json
-    {
-      event_name: 'billing.refund',
-      version: 1,
-      data: @data
-    }
-  end
-end
-
-# -----------------
-
-result = SchemaRegistry.validate_event(data, 'billing.refund', version: 1)
+result = SchemaRegistry.validate_event(event, 'billing.refund', version: 1)
 
 if result.success?
-  event = Billing::Events::Refund.new(data)
   kafka.produce('topic', event.to_json)
 end
 ```
 
 ### Option two: with pure hash
 ```ruby
-result = SchemaRegistry.validate_event(data, 'billing.refund', version: 1)
+result = SchemaRegistry.validate_event(event, 'billing.refund', version: 1)
 
 if result.success?
-  event = { event_name: 'billing.refund', version: 1, data: data }
   kafka.produce('topic', event.to_json)
 end
 ```
