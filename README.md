@@ -3,6 +3,8 @@
 This repository is an example of how to make event schema registry for JSON schema events using only github. The general idea - how to share schemas across different services plus how to validate data for specific events.
 
 ## Setup
+### Elixir
+
 ### Ruby
 Add this line into your Gemfile:
 
