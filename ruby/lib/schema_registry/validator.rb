@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+begin
+  require 'dry/monads'
+rescue LoadError
+end
+
 module SchemaRegistry
   class Result
     attr_reader :result
@@ -37,7 +42,11 @@ module SchemaRegistry
       result = JSON::Validator.fully_validate(schema_path, data)
 
       # TODO: use monads instead result object if gem was defined
-      Result.new(result)
+      if defined?(Dry::Monads::Result::Success)
+        result.empty? ? Dry::Monads::Result::Success.new(result) : Dry::Monads::Result::Failure.new(result)
+      else
+        Result.new(result)
+      end
     end
   end
 end
