@@ -2,6 +2,7 @@
 
 require 'json'
 require 'json-schema'
+require 'ostruct'
 
 require_relative 'schema_registry/loader'
 require_relative 'schema_registry/validator'
@@ -11,6 +12,15 @@ require_relative 'schema_registry/validator'
 #   SchemaRegistry.validate_event(event_hash, 'order.refund')
 #
 module SchemaRegistry
+  # Method for congigure schema registry
+  def self.configuration
+    @configuration ||= OpenStruct.new(schemas_root_path: File.expand_path('../../schemas', __dir__))
+  end
+
+  def self.configure
+    yield(configuration)
+  end
+
   # Method for validate event data by specific schema
   #
   # @param data [Hash] raw event data
@@ -31,6 +41,6 @@ module SchemaRegistry
   end
 
   def self.loader
-    @loader ||= Loader.new(schemas_root_path: File.expand_path('../../schemas', __dir__))
+    @loader ||= Loader.new(schemas_root_path: configuration.schemas_root_path)
   end
 end

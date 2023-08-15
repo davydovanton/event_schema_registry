@@ -10,6 +10,19 @@ Add this line into your Gemfile:
 gem "schema_registry", git: "https://github.com/davydovanton/event_schema_registry.git"
 ```
 
+## Configuration
+
+You can configure `schemas_root_path`
+For example if you use Rails you can put your schemas to the `app/schemas` folder and add to initializer
+
+```
+SchemaRegistry.configure do |cfg|
+  cfg.schemas_root_path = Rails.root.join('app', 'schemas')
+end
+```
+
+Also you can check current `schemas_root_path` with `SchemaRegistry.configuration.schemas_root_path`
+
 ## How to add a new event schema
 
 For example, you want to create `billing.refund` event. For make it happen you need:
